@@ -1,103 +1,45 @@
-# FinancePlus Mandato
+# FinancePlus Mandato - GitHub Streamlit OK
 
-Gestionale desktop offline per generazione mandato FinancePlus, compilazione anagrafica cliente da visura/report PDF e produzione DOCX/PDF.
+Pacchetto corretto per pubblicare **FinancePlus Mandato** su GitHub e Streamlit Cloud.
 
-## Funzioni principali
+## File principali
 
-- Dashboard desktop Tkinter in locale.
-- Database SQLite locale.
-- Archivio automatico in `FinancePlus_Data/`.
-- Import visura camerale PDF.
-- Import report PDF tipo Creditime.
-- Compilazione automatica di societa', amministratore, sede, PEC, P.IVA/C.F.
-- Generazione mandato DOCX da modello originale.
-- Conversione PDF tramite Microsoft Word o LibreOffice/soffice, se disponibile.
-- Asset minimi incorporati: il programma puo' creare modello Word e logo se non presenti nella cartella.
+| File/cartella | Uso |
+|---|---|
+| `streamlit_app.py` | Web app corretta per Streamlit Cloud |
+| `Mandato_aggiornato_report.py` | Wrapper compatibile Streamlit, senza tkinter |
+| `desktop/Mandato_aggiornato_report_DESKTOP_TKINTER.py` | Versione desktop originale Tkinter |
+| `assets/Mandato_vuoto.docx` | Modello Word mandato |
+| `assets/LOGO_FINANCE_2.PNG` | Logo FinancePlus |
+| `requirements.txt` | Librerie Python |
+| `packages.txt` | LibreOffice per conversione PDF su Cloud |
+| `runtime.txt` | Python 3.11 per massima compatibilità |
 
-## Struttura repository
+## Deploy Streamlit Cloud
+
+Main file path consigliato:
 
 ```text
-FinancePlus_Mandato_GitHub/
-├── Mandato_aggiornato_report.py
-├── requirements.txt
-├── README.md
-├── .gitignore
-├── run_windows.bat
-└── run_mac_linux.sh
+streamlit_app.py
 ```
 
-## Requisiti
+La causa dell'errore precedente era l'import di `tkinter` dentro il file desktop.
+Questa versione web non importa `tkinter`.
 
-- Python 3.10 o superiore.
-- Windows consigliato per uso desktop.
-- Microsoft Word o LibreOffice consigliati per esportare il DOCX in PDF mantenendo il layout.
+## Funzioni incluse
 
-Dipendenze Python:
+- Upload visura camerale o report PDF.
+- Estrazione dati società e amministratore.
+- Correzione manuale dati.
+- Compilazione `Mandato_vuoto.docx`.
+- Download DOCX.
+- Download PDF se LibreOffice è disponibile.
+- Salvataggio anagrafica JSON.
+
+## Avvio locale
 
 ```bash
 pip install -r requirements.txt
+streamlit run streamlit_app.py
 ```
 
-## Avvio su Windows
-
-Metodo semplice:
-
-```bat
-run_windows.bat
-```
-
-Metodo manuale:
-
-```bat
-python -m pip install -r requirements.txt
-python Mandato_aggiornato_report.py
-```
-
-## Avvio su Mac/Linux
-
-```bash
-chmod +x run_mac_linux.sh
-./run_mac_linux.sh
-```
-
-Oppure:
-
-```bash
-python3 -m pip install -r requirements.txt
-python3 Mandato_aggiornato_report.py
-```
-
-## Caricamento su GitHub
-
-1. Crea un nuovo repository GitHub, ad esempio `financeplus-mandato`.
-2. Carica tutti i file contenuti in questa cartella.
-3. Non caricare `FinancePlus_Data/`: contiene dati locali, documenti clienti, mandati generati e database.
-4. Dopo il clone su un altro PC, esegui `run_windows.bat`.
-
-Comandi Git da terminale:
-
-```bash
-git init
-git add .
-git commit -m "Prima versione FinancePlus Mandato"
-git branch -M main
-git remote add origin https://github.com/TUO-UTENTE/financeplus-mandato.git
-git push -u origin main
-```
-
-## Note operative importanti
-
-- `FinancePlus_Data/` viene creata automaticamente all'avvio.
-- Il database locale viene creato automaticamente.
-- Per dati reali di clienti, usare repository GitHub privato.
-- Per esportare in PDF con layout identico al DOCX, installare LibreOffice oppure usare un PC con Microsoft Word.
-
-## Sicurezza dati
-
-Questo progetto lavora in locale. Non pubblicare su GitHub file contenenti:
-
-- documenti clienti;
-- visure camerali reali;
-- report bancari o Centrale Rischi;
-- database `financeplus_mandato.db`;
-- cartella `FinancePlus_Data/`.
